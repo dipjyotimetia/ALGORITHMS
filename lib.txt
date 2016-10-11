@@ -1,0 +1,138 @@
+ 
+ 1....Input formats
+ static Scanner sc = new Scanner(System.in);
+  
+   static long l(){
+        return sc.nextLong();
+    }
+    static int i(){
+        return sc.nextInt();
+    }
+    static String s(){
+        return sc.nextLine();
+    }
+	
+	static int[] ia(int n){                                     //integer array urf ia()
+      int arr[] = new int[n];
+        
+        for(int i=0;i<n;i++)
+        arr[i] = i();
+        return arr;
+    }
+	
+	
+	
+	
+	
+	
+	
+	2...prime--returnns true if no. is prime--
+	boolean prime(long num)               //returns true for prime numbers and false for non-primes
+    {
+       long i,limit =num/2 ;
+	   if(num%2==0)
+	   return false;
+	   
+       for(i=3;i<=limit;i+=2){
+            
+           if(num%i==0)
+           return false;
+        }
+        return true;
+     }
+	 
+	 
+	 
+	 
+	 
+	
+
+
+
+3...
+throws IOException
+try{
+        BufferedReader br = new BufferedReader (new InputStreamReader (System.in));
+		int p = Integer.parseInt(input.readline());     //for int
+		String y = input.readLine();       //for array
+        String[] ar = y.split(" ");             //for array
+      }
+catch(IOException e){}
+	 
+	 
+
+	 
+	 
+4...Hashmap
+
+HashMap<String, Integer> map = new HashMap<String, Integer>();
+
+Iterating hashmap
+						for (Map.Entry<Integer, Integer> entry : map.entrySet()) 
+						{
+						System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+						}
+						
+						
+						
+Iterating over keys only
+
+						for (Integer key : map.keySet()) {
+							System.out.println("Key = " + key);
+						}
+
+						
+Iterating over values only
+							
+							for (Integer value : map.values()) {
+								System.out.println("Value = " + value);
+							}
+						
+						
+						
+
+						
+						
+						
+5.ArrayList
+             ArrayList<String> obj = new ArrayList<String>();
+    
+	Iterating arraylist
+	         		for (String temp : obj) {
+					System.out.println(temp);
+					}
+ 
+
+	
+
+	
+ 6...exor...Find exor of all numbers in the range [a,b]
+
+    long long f(long long a) {
+			 long long res[] = {a,1,a+1,0};
+			 return res[a%4];
+}
+
+long long getXor(long long a, long long b) {
+     return f(b)^f(a-1);
+}	 
+
+
+
+7...  decimal to binary conversion
+
+integer to binary number
+String s =  Integer.toBinaryString(int);
+binary to integer
+int n = Integer.parseInt(BinaryString,2)
+
+
+
+Long to binary
+String s =  Long.toBinaryString(long);
+binary to integer
+long n = Long.parseLong(BinaryString,2)
+
+
+			
+							 

@@ -1,0 +1,337 @@
+ 
+ 1....Input formats
+  static Scanner sc = new Scanner(System.in);
+  
+  static int i(){
+        return sc.nextInt();
+    }
+	 
+	 static String s(){
+        return sc.nextLine();
+    }
+	static int[] ia(int n){                                     //integer array urf ia()
+      int arr[] = new int[n];
+        
+        for(int i=0;i<n;i++)
+        arr[i] = i();
+        return arr;
+    }
+	static long l(){
+        return sc.nextLong();
+    }
+   
+	
+	
+
+	
+	
+	
+	
+	
+	2...prime--returnns true if no. is prime--
+	boolean prime(long num)               //returns true for prime numbers and false for non-primes
+    {
+       long i,limit =num/2 ;
+	   if(num%2==0)
+	   return false;
+	   
+       for(i=3;i<=limit;i+=2){
+            
+           if(num%i==0)
+           return false;
+        }
+        return true;
+     }
+	 
+	 
+	 
+	 
+	 
+	
+
+
+
+3...
+throws IOException
+try{
+        BufferedReader input = new BufferedReader (new InputStreamReader (System.in));
+		int p = Integer.parseInt(input.readline());     //for int
+		String y = input.readLine();       //for array
+        String[] ar = y.split(" ");             //for array
+      }
+catch(IOException e){}
+	 
+	 
+
+	 
+	 
+4...Hashmap
+
+HashMap<String, Integer> hm = new HashMap();
+
+Iterating hashmap
+						for (Map.Entry<Integer, Integer> entry : hm.entrySet()) 
+						{
+						System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+						}
+						
+						
+						
+Iterating over keys only
+
+						for (Integer key : hm.keySet()) {
+							System.out.println("Key = " + key);
+						}
+
+						
+Iterating over values only
+							
+							for (Integer value : hm.values()) {
+								System.out.println("Value = " + value);
+							}
+						
+						
+						
+
+						
+						
+						
+5.ArrayList
+             ArrayList<String> obj = new ArrayList<String>();
+    
+	Iterating arraylist
+	         		for (String temp : obj) {
+					System.out.println(temp);
+					}
+ 
+
+	
+
+	
+ 6...exor...Find exor of all numbers in the range [a,b]
+
+    long long f(long long a) {
+			 long long res[] = {a,1,a+1,0};
+			 return res[a%4];
+}
+
+long long getXor(long long a, long long b) {
+     return f(b)^f(a-1);
+}	 
+
+
+
+7...  decimal to binary conversion
+
+integer to binary number
+String s =  Integer.toBinaryString(int);
+binary to integer
+int n = Integer.parseInt(BinaryString,2)
+
+
+
+Long to binary
+String s =  Long.toBinaryString(long);
+binary to integer
+long n = Long.parseLong(BinaryString,2)
+
+8...String functions                     
+
+Count occurrence of a character in string…..
+
+int count = s.length() - s.replace("char", "").length();
+
+
+9...Returns no. of setbit in binary number form of integer n
+
+int setBits(int n) {
+    int count = 0 ;
+    while(n) 
+    {
+        n = n& (n-1) ;
+        count ++ ;
+    }
+    return count ;
+}
+
+
+10...Find the count of each element or number  of string of array using hashmap
+for(int i=0;i<n;i++)
+            {
+                if(!hm.containsKey(k))
+                {
+                        hm.put(k,1);
+                }
+                else
+                {
+                        int v = hm.get(k);
+                        v++;
+                        hm.remove(k);
+                        hm.put(k,v);
+                }
+            }
+			
+11.   Check  if two strings are anagrams or not
+ static boolean anagram(String s1,String s2){
+            
+            int l = s1.length();
+            int a[] = new int[26];
+            
+            for(int i=0;i<l;i++)
+            {
+                
+                a[s1.charAt(i)-'a']++;
+                a[s2.charAt(i)-'a']--;
+            }
+            
+            for(int i=0;i<26;i++)
+            {
+                if(a[i]!=0)
+                    return false;
+            }
+            return true;
+        }
+		
+		
+12.Formating a decimal number
+DecimalFormat f = new DecimalFormat("0.00");
+        System.out.println(f.format(x));   
+        
+		
+13. Counting primenumbers from  2 to n//famous algorithm Sieve of Eratosthenes
+static void primes(int n) { 
+        
+        boolean[] isPrime = new boolean[n+1];
+        for (int i = 2; i <= n; i++) {
+            isPrime[i] = true;
+        }
+
+        // mark non-primes <= n using Sieve of Eratosthenes
+        for (int factor = 2; factor*factor <= n; factor++) {
+
+            // if factor is prime, then mark multiples of factor as nonprime
+            // suffices to consider mutiples factor, factor+1, ...,  n/factor
+            if (isPrime[factor]) {
+                for (int j = factor; factor*j <= n; j++) {
+                    isPrime[factor*j] = false;
+                }
+            }
+        }
+
+        // count primes
+        int primes = 0;
+        for (int i = 2; i <= n; i++) {
+            if (isPrime[i]) primes++;
+        }
+        System.out.println(primes);
+    }
+	
+	 static int getNoOfPrimes(int N)
+    {   
+        int primeNos = 0;
+        int[] list = new int[N+1];
+        for(int i=2;i<=N;i++){
+            list[i] = i;
+        }
+        
+        for(int i=2;i<=N;i+=2)
+        {
+            for(int j=i+i;j<=N;j+=i)
+                list[j] = 0;
+            
+        }
+        
+        for(int i=2;i<=N;i++)
+        {
+            if(list[i]!=0){
+                primeNos++;
+            }
+        }
+        
+        return primeNos;
+    }
+}
+
+
+
+14...b raise to e
+        public long pow(long b, long e) {
+            long r = 1;
+            while (e > 0) {
+                if (e % 2 == 1) r = r * b % mod;
+                b = b * b % mod;
+                e >>= 1;
+            }
+            return r;
+        }
+		
+		
+		
+15...Calculate multiplicative inverse of a mod m
+
+public static long invl(long a, long mod) {
+		long b = mod;
+		long p = 1, q = 0;
+		while (b > 0) {
+			long c = a / b;
+			long d = a;
+			a = b;
+			b = d % b;
+			d = p;
+			p = q;
+			q = d - c * q;
+		}
+		return p < 0 ? p + mod : p;
+	}
+	
+	
+16...Indexes of all occurrence of  a character in string.
+
+				int k = s.indexOf(ch);
+                
+                 while (k >= 0) 
+				 {
+						index[l++] = k ;
+						k = s.indexOf(ch, k + 1);
+                } 
+				
+17.  Bits related functions in Integer class
+
+							 /* returns the string representation of the unsigned integer value 
+							   represented by the argument in binary (base 2) */
+							   System.out.println("Binary = " + Integer.toBinaryString(i));
+
+							   // returns the number of one-bits 
+							   System.out.println("Number of one bits = " + Integer.bitCount(i));
+
+							   /* returns an int value with at most a single one-bit, in the position 
+							   of the highest-order ("leftmost") one-bit in the specified int value */
+							   System.out.println("Highest one bit = " + Integer.highestOneBit(i));
+
+							   /* returns an int value with at most a single one-bit, in the position
+							   of the lowest-order ("rightmost") one-bit in the specified int value.*/
+							   System.out.println("Lowest one bit = " + Integer.lowestOneBit(i));
+
+							   /*returns the number of zero bits preceding the highest-order 
+							   ("leftmost")one-bit */
+							   System.out.print("Number of leading zeros = ");
+							   System.out.println(Integer.numberOfLeadingZeros(i));
+							   }
+							}
+							Let us compile and run the above program, this will produce the following result:
+
+							Number = 170
+							Binary = 10101010
+							Number of one bits = 4
+							Highest one bit = 128
+							Lowest one bit = 2
+							Number of leading zeros = 24
+							
+							
+18...
+
+public BigInteger modPow(BigInteger exponent, BigInteger m)					
+							
+							bi3 = bi1.modPow(exponent, bi2);
+                            String str = bi1 + "^" +exponent+ " mod " + bi2 + " is " +bi3;
+							7^2 mod 20 is 9

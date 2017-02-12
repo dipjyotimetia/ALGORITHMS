@@ -1,0 +1,100 @@
+import java.net.*;
+import java.io.*;
+import java.util.*;
+class PC extends Thread
+{
+	Thread ct;
+	static ArrayDeque<Thread> ar ;
+	boolean acquired;
+	static 
+	{
+		ar = new ArrayDeque();
+	}
+
+	
+	public void acquired(Thread ct)
+	{
+		 System.out.println(ct.getName()+ " is using Critical Section");
+	     try{
+		 sleep(1000);
+		 System.out.println(ct.getName()+ " is released Critical Section");   //Released
+		 }
+		 catch(Exception e){}
+	}
+	
+	public void request_CS(Thread t)
+    {
+	     if(!acquired)
+	     {
+		     acquired = true;
+		     ct = t;
+		     acquired(t);
+			 acquired = false;
+			 
+	     }
+		 else
+		 {
+			ar.addFirst(t);
+			System.out.println(t.getName() + " is added to queue");
+			print();
+			while(acquired || t !=  ar.getLast()){}     // Multiple Waiting    
+
+			System.out.println(t.getName() + " is removed from queue");
+			acquired = true;
+            print();
+			acquired(t);
+			acquired = false;
+				 
+			
+		 }
+	}
+  
+	static void print()
+	{
+	System.out.println();
+	if(ar.isEmpty())
+	System.out.println("Queue is Empty");
+	else
+	for(Thread k : ar)
+	System.out.print(k.getName()+"     |      ");
+	System.out.println();
+	}
+	}
+ 
+ class Process extends Thread
+ {
+    
+	static PC coor = new PC();       //OBJECT OF PROCESS COORDINATOR
+	public void run()	
+	{
+		System.out.println(this.getName()+ " starts");
+		coor.request_CS(this);
+	}
+ }
+ 
+ 
+ class central{
+ 
+ public static void main(String args[])
+ {
+ try{
+       Process p1 = new Process();
+	   p1.setName("P1");
+	   p1.start();
+	 //  Thread.sleep(10);
+	   
+	   Process p2 = new Process();
+	   p2.setName("P2");
+	   p2.start();
+	  // Thread.sleep(10);
+	   Process p3 = new Process();
+	   p3.setName("P3");
+	   p3.start();
+	   }
+	   catch(Exception e)
+	   {}
+ 
+ }
+ }
+ 
+ 

@@ -335,3 +335,11 @@ public BigInteger modPow(BigInteger exponent, BigInteger m)
 							bi3 = bi1.modPow(exponent, bi2);
                             String str = bi1 + "^" +exponent+ " mod " + bi2 + " is " +bi3;
 							7^2 mod 20 is 9
+							
+							
+19..
+Arrays.stream(a).anyMatch(x -> x == 3)
+this statement returns true if the array a contains atleast one 3 in it else returns false.
+
+Arrays.stream(a).allMatch(x -> x == 3)
+this statement returns true if all the elements array a is 3 in it else returns false.

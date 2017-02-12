@@ -1,0 +1,9 @@
+            
+            if(i-1>=0 && a[i-1][j] == '.')     //top
+            ck++;
+            if(j+1<c && a[i][j+1] == '.')     //right
+            ck++;
+            if(i+1<r && a[i+1][j] == '.')      //bottom
+            ck++;
+            if(j-1>=0 && a[i][j-1] == '.')      //left
+            ck++;

@@ -1,0 +1,26 @@
+int n = ni();
+		int[] from = new int[n - 1];
+		int[] to = new int[n - 1];
+		for (int i = 0; i < n - 1; i++) {
+			from[i] = ni() - 1;
+			to[i] = ni() - 1;
+		}
+		int[][] g = packU(n, from, to);
+
+		
+		
+static int[][] packU(int n, int[] from, int[] to) {
+		int[][] g = new int[n][];
+		int[] p = new int[n];
+		for (int f : from)
+			p[f]++;
+		for (int t : to)
+			p[t]++;
+		for (int i = 0; i < n; i++)
+			g[i] = new int[p[i]];
+		for (int i = 0; i < from.length; i++) {
+			g[from[i]][--p[from[i]]] = to[i];
+			g[to[i]][--p[to[i]]] = from[i];
+		}
+		return g;
+	}

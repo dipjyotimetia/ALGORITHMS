@@ -4,7 +4,7 @@
 1.//If endpoint of one diagonal of a square is known,find the endpoint of another diagonal 
 
 if (x1,y1),(x3,y3) are known,finding (x2,y2) and (x4,y4)
-
+https://www.quora.com/Given-two-diagonally-opposite-points-of-a-square-how-can-I-find-out-the-other-two-points-in-terms-of-the-coordinates-of-the-known-points
 static void square()
     {
         x[2] = (x[1]+x[3]+y[1]-y[3])/2;

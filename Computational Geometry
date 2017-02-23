@@ -1,0 +1,35 @@
+
+
+
+1.//If endpoint of one diagonal of a square is known,find the endpoint of another diagonal 
+
+if (x1,y1),(x3,y3) are known,finding (x2,y2) and (x4,y4)
+
+static void square()
+    {
+        x[2] = (x[1]+x[3]+y[1]-y[3])/2;
+        x[4] = (x[1]+x[3]-y[1]+y[3])/2;
+        y[2] = (x[3]-x[1]+y[1]+y[3])/2;
+        y[4] = (x[1]-x[3]+y[1]+y[3])/2;
+        
+        area_of_square = Math.pow(x[1]-x[2],2) + Math.pow(y[1]-y[2],2);
+        
+    } 
+ 
+ 
+ 
+ 
+2.//area of a triangle if three endpoints of triangle are known
+A(x1,y1), B(x2,y2), C(x3,y3) are known (vertices of triangle)
+    area_of_triangle = ( x1*(y2 - y3) + x2*(y3 - y1) + x3*(y1 - y2))/2
+    
+    
+    
+    
+3.//How to check if a point A lies inside triangle
+P(a,b) is known 
+A(x1,y1) , B(x2,y2)  , C(x3,y3) are known (vertices of triangle)
+
+if(area_of_triangle(ABP) + area_of_triangle(ACP) + area_of_triangle(BCP) == area_of_triangle(ABC))
+point P lies in triangle.
+

@@ -55,7 +55,7 @@
 throws IOException
 try{
         BufferedReader input = new BufferedReader (new InputStreamReader (System.in));
-		int p = Integer.parseInt(input.readline());     //for int
+		int p = Integer.parseInt(input.readLine());     //for int
 		String y = input.readLine();       //for array
         String[] ar = y.split(" ");             //for array
       }

@@ -1,0 +1,78 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class graph {
+
+    int n,e;
+    HashMap<Integer,ArrayList<Integer>> list = new HashMap();
+    boolean v[];
+    
+    
+    //Constructor takes input
+    graph(){
+       
+       n = i();      //no of nodes 
+       e = i();      //no of egdes
+       
+       for(int i=0;i<e;i++)               //creating adjacency list
+       {
+            int a = i();
+            int b = i();
+           
+            if(!list.containsKey(a))
+                list.put(a,new ArrayList());
+           
+            if(!list.containsKey(b))
+                list.put(b,new ArrayList());
+           
+           list.get(a).add(b);
+           list.get(b).add(a);
+       }
+       
+       v = new boolean[n+1];
+      
+    }
+    
+    public void dfs(int root)
+    {
+        v[root] = true;
+        ArrayList<Integer> ar = list.get(root);
+        
+        for(int i=0;i<ar.size();i++)
+        {
+            int node = ar.get(i);
+            if(!v[node])      // if element is not visited
+            {
+                dfs(node);
+            }
+        }
+    }
+    
+    void p()
+    {    
+        System.out.print();
+    }    
+    
+    public static void main(String[] args) {
+        
+       graph g = new graph();
+       int root = 1;
+       g.dfs(root);
+    }
+    
+    
+   static Scanner sc = new Scanner(System.in);
+  
+   static long l(){
+        return sc.nextLong();
+    }
+    static int i(){
+        return sc.nextInt();
+    }
+    static String s(){
+        return sc.nextLine();
+}
+}

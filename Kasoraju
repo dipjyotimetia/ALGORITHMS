@@ -1,0 +1,111 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+
+public class graph {
+
+    int n,e;
+    HashMap<Integer,ArrayList<Integer>> list = new HashMap();
+    HashMap<Integer,ArrayList<Integer>> revlist = new HashMap();
+    Deque<Integer> stack = new ArrayDeque<Integer>();
+    boolean v[];
+    int ans[];
+    //Constructor takes input
+
+   graph()
+   {
+        n = i();      //no of nodes 
+        e = i();      //no of egdes
+        ans = new int[n+1];
+       
+        for(int i=1;i<=n;i++)
+        {
+            list.put(i,new ArrayList());
+            revlist.put(i,new ArrayList());
+        }
+        for(int i=0;i<e;i++)               //creating adjacency list
+        {
+
+            int a = i();
+            int b = i();
+            
+            list.get(a).add(b);
+            revlist.get(b).add(a);
+        }
+        v = new boolean[n+1];
+       
+    }
+
+    public void dfs(int root)
+    {
+       
+        v[root] = true;
+        ArrayList<Integer> ar = list.get(root);
+        
+        for(int i=0;i<ar.size();i++)
+        {
+            int node = ar.get(i);
+            if(!v[node])      // if element is not visited
+            {
+                dfs(node);
+            }
+        }
+        stack.push(root);
+       
+    }
+
+    void call_dfs()
+    {
+
+        for(int i=1;i<=n;i++)
+            if(!v[i])
+                dfs(i);
+    }
+    
+    void rev()
+    {
+        Arrays.fill(v,false);
+        int no = 1;
+        while(!stack.isEmpty())
+        {
+            int node = stack.pop();
+            if(!v[node])
+            {
+                rev_dfs(node,no);
+                no++;
+            }
+         }
+        
+    }
+
+    void rev_dfs(int root,int val)
+    {
+        v[root] = true;
+        ans[root] = val;
+        
+        ArrayList<Integer> ar = revlist.get(root);
+        
+        for(int i=0;i<ar.size();i++)
+        {
+            int node = ar.get(i);
+            if(!v[node])
+                rev_dfs(node,val);
+        }
+    }
+    
+    public static void main(String[] args) {
+        
+        graph g = new graph();
+        g.call_dfs();                                            
+        g.rev();
+        
+       for(int i=1;i<=g.n;i++)
+            System.out.print(g.ans[i]+"  ");
+    }
+
+  static Scanner sc = new Scanner(System.in);
+
+    static int i(){
+        return sc.nextInt();
+    }
+}

@@ -1,0 +1,41 @@
+public class find_longest_path
+{
+    max1[],max2[];
+    dfs( node )
+    {
+       visited[node] = true;
+       
+       if(node is leaf)
+       {
+            max1[node] = 0;    //maximum path from a deepest child is zero for leaf node
+            max2[node] = 0;    //second maximum path from a deepest child is zero for leaf node
+            return ;
+       }
+        
+       for(int i : adj_of_node)
+       {
+            if(i is not visited)
+            dfs(i);
+           
+            if( max1[i] + 1 > max2[node] )           //update maximum and second maximum for current node.. 
+            {
+                if(max1[i]  + 1 > max1[node])
+                {
+                    max2[node] = max1[node];
+                    max1[node] = max1[i] + 1;
+                }
+                else
+                max2[node] = max1[i] + 1;
+            }
+       }
+    } 
+    
+    int find_longest_path(int root)
+    {
+        max = -1;
+        for(int i=1;i<=n;i++)
+        max = Math.max(max, max1[i] + max2[i] );
+        
+        return max;
+    }
+}

@@ -1,0 +1,152 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+/*
+author @rahul_shetty
+
+call add_string(String s) to insert s in the trie dictionary..
+call search(String s) to check if what part of s is already present in the trie.. 
+call print() to print the entire trie data structure
+*/
+
+
+
+public class Solution {
+
+
+    static class node
+    {
+       static node root = new node('.');
+       char c;
+       HashMap<Character,node> hm;     //mark node with its children
+       
+       node(char c)
+       {
+           this.c = c;
+           this.hm = new HashMap();
+       }
+       
+       node add(char child)
+       {
+          //if a character is already a sub child of this node,no need to create another node,return the same node
+           if(this.hm.containsKey(child))     
+               return this.hm.get(child);
+           
+           //else create a new node
+           node n = new node(child);
+           
+           //add created node in this node's hashMap
+           this.hm.put(child,n);
+           
+           //and return that node...
+           return n;
+       }
+       
+       
+       static void add_string(String s)
+       {
+           //prev stores the currently created child as it can be used as a parent for upcoming child to be created.
+           node prev = root;      
+           
+           for(int i=0;i<s.length();i++)
+           {
+               char c = s.charAt(i);
+               prev = prev.add(c);
+           }
+       }
+       
+       static void search(String s)
+       {
+           node n = root;
+           for(int i=0;i<s.length();i++)
+           {
+               //check if the character is present in the hashMap of its prev character's node
+               char c = s.charAt(i);
+               
+               //if hashmap of prev character contains this character , move on
+               if(n.hm.containsKey(c))
+               n = n.hm.get(c);
+               else
+               {
+                   tm.add(s.substring(0,i+1));
+                   return;
+               }
+            }
+       }
+   }
+   
+   static TreeSet<String> tm = new TreeSet();
+  
+   public static void main(String[] args) 
+   {
+       int t = i();
+                nl();
+        String ar[] = new String[t];
+        
+        int ik=0;
+        while(ik<t)
+        {
+            ar[ik++] = nl();
+        }
+     
+     
+        for(int i=0;i<t;i++)
+        {
+            if(ar[i].charAt(0) == '+')         //for every unblocked site...
+                node.add_string(ar[i].substring(2,ar[i].length()));
+        }
+       
+        for(int i=0;i<t;i++)
+        {
+           if(ar[i].charAt(0) == '-')         //for every blocked site...
+                node.search(ar[i].substring(2,ar[i].length())); 
+        }
+        
+      //  node.print(node.root);
+       System.out.println(tm.size());
+       for(String s : tm)
+           System.out.println(s);
+   }
+
+
+
+
+        public String toString()
+        {
+           
+           System.out.print(this.c+" --> ");
+           
+           for(char c : this.hm.keySet())
+           System.out.print(c+" ");
+           
+           return "";
+        }
+    
+       static void print(node root)
+       {
+           
+           node n = root;
+           
+           System.out.println(root);
+           
+           for(node c : n.hm.values())
+           print(c);
+       }
+    
+       static Scanner in = new Scanner(System.in);
+    
+       static int i(){
+           return in.nextInt();
+       }
+    
+       static String nl(){
+           return in.nextLine();
+       }
+    
+        static String n(){
+           return in.next();
+       }
+
+}

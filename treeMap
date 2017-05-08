@@ -1,0 +1,26 @@
+static TreeMap<Integer,Integer> hm = new TreeMap();
+    
+    static void put(int k)
+    {
+        k = -k;
+        if(hm.containsKey(k))
+            hm.put(k,hm.get(k)+1);
+        else
+            hm.put(k,1);
+    }
+    
+    static void remove(int k)
+    {
+        k = -k;
+        hm.put(k,hm.get(k)-1);
+       
+        if(hm.get(k) == 0)
+            hm.remove(k);
+    }
+    
+    static int get_max()
+    {
+        for(int i : hm.keySet())
+            return -i;
+        return -1;
+    }

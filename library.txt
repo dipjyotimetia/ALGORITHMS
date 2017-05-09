@@ -21,7 +21,16 @@
     }
    
 	
-	
+3...Copying an arraylist
+ArrayList<Integer> clone_it(ArrayList<Integer> ar)
+        {
+            ArrayList<Integer> copy = new ArrayList<Integer>();
+            
+            for(int i : ar)
+                copy.add(i);
+            
+            return copy;
+        }
 
 	
 	

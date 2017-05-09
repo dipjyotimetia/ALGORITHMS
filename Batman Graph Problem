@@ -1,0 +1,358 @@
+    https://www.codechef.com/MAY17/problems/GPD/
+    
+    
+    import java.io.*;
+    import java.util.*;
+    import java.text.*;
+    import java.math.*;
+    import java.util.regex.*;
+     
+     
+     
+    class graph {
+     
+        int n,e,q;
+        HashMap<Integer,ArrayList<Integer>> list = new HashMap();
+        Deque<Integer> stack = new ArrayDeque();
+        Deque<Integer> stack_par = new ArrayDeque();
+        HashMap<Integer,Integer> path = new HashMap();
+        HashMap<Integer,HashMap<Integer,Integer>> ans = new HashMap();
+        HashMap<Integer,Integer> key = new HashMap();
+        int root,node,k,min,max;
+        
+        
+        
+        graph()
+        {
+           
+           n = i();     
+           q = i();      
+           e = n-1;
+           
+           root = i();
+           key.put(root,i());
+           
+           for(int i=0;i<e;i++)               
+           add_edge(i(),i(),i());
+           
+           dfs(root,root);
+        }
+        
+        public void add_edge(int a,int b,int k)
+        {
+            key.put(a,k);
+            
+            if(!list.containsKey(a))
+                    list.put(a,new ArrayList());
+               
+            if(!list.containsKey(b))
+                    list.put(b,new ArrayList());
+               
+               list.get(a).add(b);
+               list.get(b).add(a);
+        }
+        
+        
+        public void dfs(int node,int par)
+        {
+            stack.push(node);
+            stack_par.push(root);
+            
+            while(!stack.isEmpty())
+            {
+                par = stack_par.pop();
+                node = stack.pop();
+                
+                ArrayList<Integer> ar = list.get(node);
+                
+                path.put(node,par);
+            
+                for(int i : ar)
+                {
+                    if(!path.containsKey(i))
+                    {
+                        stack.push(i);
+                        stack_par.push(node);
+                    }
+                }
+            }
+        }
+        
+        void call_q_lines()
+        {
+            int last_answer = 0;
+            
+            for(int i=0;i<q;i++)
+            {
+               int t = i()^last_answer;
+                
+               if(t==0)
+               {
+                   int v = i()^last_answer;
+                   int u = i()^last_answer;
+                   int k = i()^last_answer;
+                   path.put(u,v);
+                   key.put(u,k);
+               }
+               else
+               {
+                   node = i()^last_answer;
+                   k = i()^last_answer;
+                   min = key.get(node)^k;
+                   max = min;
+                   int par = path.get(node);
+                   int keys = key.get(par);
+                   
+                   boolean hai = true,tha_andar = false;
+                   HashMap<Integer,Integer> check = new HashMap();
+                   
+                   
+                   if(ans.containsKey(k))
+                   {
+                       hai = true;
+                       check = ans.get(k);
+                   }
+                   
+                   while(true)
+                   {
+                       
+                       if(hai)
+                       {
+                           if(check.containsKey(par))
+                           {
+                               min = check.get(-par);
+                               max = check.get(par);
+                               tha_andar = true;
+                               break;
+                           }
+                       }
+                       min = Math.min(min,keys^k);
+                       max = Math.max(max,keys^k);
+                       
+                       if(par == root)
+                       break;
+                       
+                       par = path.get(par);
+                       keys = key.get(par);
+                   }
+                   
+                   if(!tha_andar)
+                   {
+                       HashMap<Integer,Integer> h = new HashMap();
+                       h.put(-node,min);
+                       h.put(node,max);
+                       ans.put(k,h);
+                   }
+                   w.print((min)+" "+(max)+"\n");
+                   last_answer = min^max;
+               }
+            }
+            w.close();
+        }   
+        
+        public static void main(String[] args) {
+            
+           graph g = new graph();
+           g.call_q_lines();
+        }
+        
+        
+  static InputReader sc=new InputReader(System.in);
+   static PrintWriter w=new PrintWriter(System.out);
+   
+    static int i(){
+      return sc.nextInt();
+   }
+   static String s(){
+       return sc.next();
+   }
+   static String sl(){
+       return sc.nextLine();
+   }
+   static void p(int i)
+   {
+       w.print(i);
+   }
+   static void p(String i)
+   {
+       w.print(i);
+   }
+   
+   static class InputReader
+	{
+		private InputStream stream;
+		private byte[] buf = new byte[1024];
+		private int curChar;
+		private int numChars;
+		private SpaceCharFilter filter;
+		
+		public InputReader(InputStream stream)
+		{
+			this.stream = stream;
+		}
+		
+		public int read()
+		{
+			if (numChars==-1) 
+				throw new InputMismatchException();
+			
+			if (curChar >= numChars)
+			{
+				curChar = 0;
+				try 
+				{
+					numChars = stream.read(buf);
+				}
+				catch (IOException e)
+				{
+					throw new InputMismatchException();
+				}
+				
+				if(numChars <= 0)				
+					return -1;
+			}
+			return buf[curChar++];
+		}
+	 
+		public String nextLine()
+		{
+			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+			String str = "";
+            try
+            {
+                str = br.readLine();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return str;
+		}
+		public int nextInt()
+		{
+			int c = read();
+			
+			while(isSpaceChar(c)) 
+				c = read();
+			
+			int sgn = 1;
+			
+			if (c == '-') 
+			{
+				sgn = -1;
+				c = read();
+			}
+			
+			int res = 0;
+			do 
+			{
+				if(c<'0'||c>'9') 
+					throw new InputMismatchException();
+				res *= 10;
+				res += c - '0';
+				c = read();
+			}
+			while (!isSpaceChar(c)); 
+			
+			return res * sgn;
+		}
+		
+		public long nextLong() 
+		{
+			int c = read();
+			while (isSpaceChar(c))
+				c = read();
+			int sgn = 1;
+			if (c == '-') 
+			{
+				sgn = -1;
+				c = read();
+			}
+			long res = 0;
+			
+			do 
+			{
+				if (c < '0' || c > '9')
+					throw new InputMismatchException();
+				res *= 10;
+				res += c - '0';
+				c = read();
+			}
+			while (!isSpaceChar(c));
+				return res * sgn;
+		}
+		
+		public double nextDouble() 
+		{
+			int c = read();
+			while (isSpaceChar(c))
+				c = read();
+			int sgn = 1;
+			if (c == '-') 
+			{
+				sgn = -1;
+				c = read();
+			}
+			double res = 0;
+			while (!isSpaceChar(c) && c != '.') 
+			{
+				if (c == 'e' || c == 'E')
+					return res * Math.pow(10, nextInt());
+				if (c < '0' || c > '9')
+					throw new InputMismatchException();
+				res *= 10;
+				res += c - '0';
+				c = read();
+			}
+			if (c == '.') 
+			{
+				c = read();
+				double m = 1;
+				while (!isSpaceChar(c)) 
+				{
+					if (c == 'e' || c == 'E')
+						return res * Math.pow(10, nextInt());
+					if (c < '0' || c > '9')
+						throw new InputMismatchException();
+					m /= 10;
+					res += (c - '0') * m;
+					c = read();
+				}
+			}
+			return res * sgn;
+		}
+		
+		public String readString() 
+		{
+			int c = read();
+			while (isSpaceChar(c))
+				c = read();
+			StringBuilder res = new StringBuilder();
+			do 
+			{
+				res.appendCodePoint(c);
+				c = read();
+			} 
+			while (!isSpaceChar(c));
+			
+			return res.toString();
+		}
+	 
+		public boolean isSpaceChar(int c) 
+		{
+			if (filter != null)
+				return filter.isSpaceChar(c);
+			return c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == -1;
+		}
+	 
+		public String next() 
+		{
+			return readString();
+		}
+		
+		public interface SpaceCharFilter 
+		{
+			public boolean isSpaceChar(int ch);
+		}
+	}
+}

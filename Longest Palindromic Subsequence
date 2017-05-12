@@ -1,0 +1,93 @@
+https://cptalks.quora.com/Longest-Palindromic-Subsequence-LPS
+
+     //only upper triangle of the matrix will be used
+     static int dp[][];
+
+    static void longest_palindromic subsequence(String s)
+    {
+        int n = s.length();
+        dp = new int[n][n];
+        
+        //fill all the palindrome with length 1
+        for(int i=0;i<n;i++)
+            dp[i][i] = 1;
+        
+        
+        //for substring of all length from 2 to n
+        for(int len=2 ; len<=n ; len++ )
+        {
+            //for a substring of length len,all possible start indexes
+                for(int start=0 ; start<=n-len ; start++ )
+                {
+                    int end = start + len - 1;
+                    
+                    if(s.charAt(start) == s.charAt(end) && len==2)
+                    dp[start][end] = 2;
+                    
+                    else if(s.charAt(start) == s.charAt(end))
+                    dp[start][end] = dp[start-1][end-1] + 2;
+                        
+                    else
+                    dp[start][end] = Math.max( dp[start+1][end] , dp[start][end-1] );
+                    
+                    
+                }  
+        }
+    }
+/*
+example :--salsa
+    
+    initially fill all palindromes of length 1
+       s a l s a
+       0 1 2 3 4
+    
+ s  0  1 0 0 0 0
+ a  1  0 1 0 0 0
+ l  2  0 0 1 0 0
+ s  3  0 0 0 1 0
+ a  4  0 0 0 0 1
+    
+    fill all palindromes of length 2   start index from 0 to 3  (not 4,why?)
+       s a l s a
+       0 1 2 3 4
+    
+ s  0  1 1 0 0 0          (0,1) -->sa
+ a  1  0 1 1 0 0          (1,2) -->al
+ l  2  0 0 1 1 0          (2,3) -->ls
+ s  3  0 0 0 1 1          (3,4) -->sa
+ a  4  0 0 0 0 1
+    
+        fill all palindromes of length 3   start index from 0 to 2  (not 3,4,why?)
+       s a l s a
+       0 1 2 3 4
+    
+ s  0  1 1 1 0 0          (0,2) -->sal    iske liye if ith and jth are equal we need answer of substring (i+1,j-1)
+ a  1  0 1 1 1 0          (1,3) -->als    and if they are not equal,we need answer of substring(i,j-1) and (i+1,j)
+ l  2  0 0 1 1 1          (2,4) -->lsa
+ s  3  0 0 0 1 1          
+ a  4  0 0 0 0 1
+
+    
+        fill all palindromes of length 4 start index from 0 to 1  (not 2,3,4,why?)
+       s a l s a
+       0 1 2 3 4
+    
+ s  0  1 1 1 2 0          (0,3) -->sals    iske liye if ith and jth are equal we need answer of substring (i+1,j-1)
+ a  1  0 1 1 1 2          (1,4) -->alsa    and if they are not equal,we need answer of substring(i,j-1) and (i+1,j)
+ l  2  0 0 1 1 1          
+ s  3  0 0 0 1 1          
+ a  4  0 0 0 0 1
+    
+            fill all palindromes of length 3   start index from 0 to 2  (not 1,2,3,4,why?)
+       s a l s a
+       0 1 2 3 4
+    
+ s  0  1 1 1 2 2          (0,4) -->salsa   iske liye if ith and jth are equal we need answer of substring (i+1,j-1)
+ a  1  0 1 1 1 2                   and if they are not equal,we need answer of substring(i,j-1) and (i+1,j)
+ l  2  0 0 1 1 1          
+ s  3  0 0 0 1 1          
+ a  4  0 0 0 0 1
+
+    
+    final answer is 2..
+*/

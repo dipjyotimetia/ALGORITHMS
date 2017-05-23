@@ -1,0 +1,149 @@
+//https://www.hackerrank.com/contests/101hack49/challenges/summing-the-path-weights-between-nodes
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class graph {
+
+    static class Node
+    {
+        int v;
+        long w;
+        Node(int a,int b)
+        {
+            v = a;
+            w = b;
+        }
+        
+        public String toString(){
+            System.out.print(this.v+" "+this.w+"\n");
+            return "";
+        }
+    }
+    
+    int n,e;
+    HashMap<Integer,ArrayList<Node>> list = new HashMap();
+    boolean vi[];
+    int red[],black[],r_tot,b_tot,col[];
+    
+    //Constructor takes input
+    graph(){
+       
+       n = i();      //no of nodes 
+       e = n-1;      //no of egdes
+       
+       col = new int[n+1];
+       red = new int[n+1];
+       black = new int[n+1];
+        
+       for(int i=1;i<=n;i++)
+       col[i]= i();
+       
+       for(int i=0;i<e;i++)               //creating adjacency list
+       {
+            int u = i();
+            int v = i();
+            int w = i();
+            Node n1 = new Node(u,w);
+            Node n2 = new Node(v,w);
+           
+            if(!list.containsKey(u))
+                list.put(u,new ArrayList());
+           
+            if(!list.containsKey(v))
+                list.put(v,new ArrayList());
+           
+           list.get(u).add(n2);
+           list.get(v).add(n1);
+       }
+        
+        
+       //for filling red color
+        vi = new boolean[n+1];
+        dfs(1,0);
+        
+       //for filling black color
+        vi = new boolean[n+1];
+        dfs(1,1);
+        
+        
+        vi = new boolean[n+1];
+        b_tot = black[1];
+        r_tot = red[1];
+        logic_with_dfs(1);
+        System.out.print(ans);
+    }
+    
+    long ans=0;
+    
+    
+    
+    public void logic_with_dfs(int root)
+    {
+        vi[root] = true;
+        ArrayList<Node> ar = list.get(root);
+        for(int i=0;i<ar.size();i++)
+        {
+            Node n = ar.get(i); 
+            
+            if(!vi[n.v])   
+            {
+                long k = (red[n.v]*(b_tot - black[n.v]) + black[n.v]*(r_tot - red[n.v]))*n.w;
+                ans += k;
+                logic_with_dfs(n.v);
+            }
+        }
+    }
+    public static void main(String[] args)
+    {
+        graph g = new graph();
+    }
+    
+    
+   static Scanner sc = new Scanner(System.in);
+  
+   static long l(){
+        return sc.nextLong();
+    }
+    static int i(){
+        return sc.nextInt();
+    }
+    static String s(){
+        return sc.nextLine();
+    }
+    
+    
+    //fills array red[] and black[]. red[root] - count of all red nodes in sub tree of red..same for black[root]
+    public int dfs(int root,int color)
+    {
+        vi[root] = true;
+        ArrayList<Node> ar = list.get(root);
+        long c = 0;
+        
+        for(int i=0;i<ar.size();i++)
+        {
+            Node n = ar.get(i); 
+            
+            if(!vi[n.v])   
+            c += dfs(n.v,color);
+        }
+        
+        if(color==0)
+            red[root] += c;
+        else
+            black[root] += c;
+        
+        if(col[root] == 0 && color==0)
+            red[root]++;
+        if(col[root] == 1 && color==1)
+            black[root]++;
+        
+        if(color == 0)
+            return red[root];
+        else
+            return black[root];
+    }
+}

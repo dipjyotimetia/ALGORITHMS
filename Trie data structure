@@ -8,7 +8,9 @@ author @rahul_shetty
 
 call add_string(String s) to insert s in the trie dictionary..
 call search(String s) to check if what part of s is already present in the trie.. 
+call delete(String s) to delete an compulsory existing string..
 call print() to print the entire trie data structure
+
 */
 
 
@@ -21,11 +23,12 @@ public class Solution {
        static node root = new node('.');
        char c;
        HashMap<Character,node> hm;     //mark node with its children
-       
+       boolean end;
        node(char c)
        {
            this.c = c;
            this.hm = new HashMap();
+           this.end = false;
        }
        
        node add(char child)
@@ -55,6 +58,8 @@ public class Solution {
                char c = s.charAt(i);
                prev = prev.add(c);
            }
+           
+           prev.end = true;
        }
        
        static void search(String s)
@@ -74,6 +79,39 @@ public class Solution {
                    return;
                }
             }
+       }
+       
+       static void delete(String s)
+       {
+           node prev = root;
+           Stack<node> st = new Stack();
+           st.push(root);
+           for(int i=0;i<s.length();i++)
+           {
+               char c = s.charAt(i);
+               prev = prev.hm.get(c);
+               st.push(prev);
+           }
+           
+           node k = st.pop();
+           if(k.hm.size()>0)
+           {
+               k.end = false;
+               return;
+           }
+           
+           char prev_char = k.c;
+           while(true)
+           {
+               k = st.pop();
+               
+               if(k.hm.size()>1 || st.isEmpty())
+               {
+                   k.hm.remove(prev_char);
+                   return;
+               }
+               prev_char = k.c;
+           }
        }
    }
    

@@ -1,0 +1,127 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class segment_tree {
+    
+    int seg[],seg_size,lazy[];
+    segment_tree(int a[],int n)
+    {
+        int h = (int)Math.ceil(Math.log(n)/Math.log(2));
+        seg_size = (int)Math.pow(2,h+1)-1;
+        
+        seg = new int[seg_size];
+        lazy = new int[seg_size];
+        const_tree(a,0,n-1,0);
+        
+    }
+
+    int const_tree(int []a,int ss,int se,int si)
+    {
+        if(ss == se)
+        {
+            seg[si] = a[ss];
+            return seg[si];
+        }
+        
+        int mid = getMid(ss,se);
+        seg[si] = const_tree(a,ss,mid,2*si+1) + const_tree(a,mid+1,se,2*si+2);
+        return seg[si];
+    }
+    
+    int getMid(int s, int e) {
+        return s + (e - s) / 2;
+    }
+    
+    int get_sum(int ns,int ne,int qs,int qe,int si)
+    {
+        //Just update if any lazy query remaining
+        if(lazy[si] != 0)
+        {
+            seg[si] += (ne-ns+1)*lazy[si];
+            
+            if(ns != ne)
+            {
+                lazy[2*si+1] += lazy[si];
+                lazy[2*si+2] += lazy[si];
+            }
+            
+            lazy[si] = 0;
+        }
+        
+        
+        //a)total overlap..if node range is inside query range..
+        if(qs<=ns && ne<=qe)
+            return seg[si];
+        
+        
+        //b)no overlap..if node range and query range dont overlap
+        if(qs>ne || ns>qe)
+            return 0;
+        
+        //c)partial overlap..
+        int mid = getMid(ns,ne);
+        
+        return get_sum(ns, mid, qs, qe, 2 * si + 1) +
+                get_sum(mid + 1, ne, qs, qe, 2 * si + 2);
+    } 
+    
+    void update(int ns, int ne, int us,int ue, int diff, int si)
+    {
+        //preprocessing lazy details of current node in segment tree
+        
+        if(lazy[si] != 0)
+        {
+            //add the lasy value
+            seg[si] = (ne-ns+1)*lazy[si];
+            
+            if(ns != ne)
+            {
+                lazy[2*si+1] += lazy[si];
+                lazy[2*si+2] += lazy[si];
+            }
+            
+            //update lazy value
+            lazy[si] = 0;
+        }
+        
+        
+        //Updation starts from here
+        
+        //a)not to move further
+        if(ue<ns || us>ne)
+        return;
+        
+        
+        //b)Current segment fully inside query
+        if(us<=ns && ne<=ue)
+        {
+            seg[si] += (ne-ns+1)*diff;
+            if(ns != ne)
+            {
+                lazy[2*si+1] += diff;
+                lazy[2*si+2] += diff;
+            }
+            return;
+        }
+        
+        //c)If not completely in range, but overlaps, recur for children
+        int mid = getMid(ns,ne);
+        update(ns,mid,us,ue,diff,2*si+1);
+        update(mid+1,ne,us,ue,diff,2*si+2);
+        seg[si] = seg[2*si+1]+seg[2*si+2];
+    }
+    
+    
+    public static void main(String[] args) 
+    {
+        int a[] = {1,3,5,7,9,11};
+        segment_tree s = new segment_tree(a,6);
+        s.update(0,5,1,4,5,0);
+        for(int i=0;i<s.seg.length;i++)
+            System.out.print(s.seg[i]+" ");
+        
+    }
+}

@@ -1,0 +1,29 @@
+    static int SPF[] = new int[1000001];
+    static boolean isprime[] = new boolean[1000001];
+    static ArrayList<Integer> prime = new ArrayList();
+    
+    static void seive(int N)
+    {
+        Arrays.fill(isprime,true);
+        isprime[0] = isprime[1] = false ;
+
+        for (int i=2; i<N ; i++)
+        {
+            if (isprime[i])
+            {
+                prime.add(i);
+                SPF[i] = i;
+            }
+
+            //For all primes <= spf of i,
+            //such that prime*i  = notprime 
+            //and spf(prime*i) = prime
+            
+            for (int j=0; j<prime.size() && i*prime.get(j)<N && prime.get(j)<=SPF[i] ; j++)
+            {
+                int val = i*prime.get(j);
+                isprime[val] = false;
+                SPF[val] = prime.get(j) ;
+            }
+        }
+    }

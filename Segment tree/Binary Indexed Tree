@@ -1,0 +1,46 @@
+import java.util.*;
+import java.io.*;
+
+
+class BIT{
+
+	int br[];
+	public BIT(int ar[],int n)
+	{
+		br = new int[n+1];
+
+		for(int i=0;i<n;i++)
+			update(n,i,ar[i]);
+	}
+
+	void update(int n,int index,int val)
+    {
+    	index++;
+    	while(index<=n)
+    	{
+	    	br[index] += val;
+	    	index += index & (-index);
+    	}
+    }
+
+    int get_sum(int index)
+    {
+    	int sum=0;
+    	index++;
+    	while(index>0)
+    	{
+    		sum += br[index];
+    		index = index&(index-1);
+    	}
+    	return sum;
+    }	
+	
+	public static void main(String a[])
+	{
+	     int ar[] = {1,2,3,4,5};
+	     int n = ar.length;
+	     BIT tree = new BIT(ar,n);
+         tree.update(n,2,-10);
+	     System.out.println(tree.get_sum(2));
+	}
+}

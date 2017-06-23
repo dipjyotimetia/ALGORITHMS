@@ -1,0 +1,43 @@
+//https://www.codechef.com/problems/TWONIM
+
+import java.util.*;
+import java.io.*;
+
+
+class a{
+    public static void main(String a[])
+	{
+         StringBuilder ak = new StringBuilder();
+         int t = i();
+         int aa[] = new int[501];
+         int n;
+         while(t-->0)
+         {
+             int odd=0;
+             int kl=0;
+             n=i();
+             Arrays.fill(aa,0);
+             for(int i=0;i<n;i++)
+             {
+                 int v = i();
+                 kl ^= v;
+                 aa[v]++;
+             }
+             
+             
+             for(int i=1;i<=500;i++)
+             if(aa[i]%2 != 0)
+             odd++;
+             
+             
+             //odd--> count of elements having odd occurences...note that odd will be odd if N is odd...odd will be even if N is even
+             if(odd%2 == 0 || kl == 0)
+             ak.append("First\n");
+             else
+             ak.append("Second\n");
+         }
+        
+        System.out.print(ak);
+    }
+    
+}

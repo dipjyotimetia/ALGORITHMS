@@ -1,5 +1,6 @@
 https://cptalks.quora.com/Longest-Palindromic-Subsequence-LPS
 
+
      //only upper triangle of the matrix will be used
      static int dp[][];
 

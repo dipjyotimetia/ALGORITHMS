@@ -1,0 +1,55 @@
+public Manacher(String s) {
+        char[] T = new char[s.length()*2 + 3];
+        T[0] = '$';
+        T[s.length()*2 + 2] = '@';
+        for (int i = 0; i < s.length(); i++) {
+            T[2*i + 1] = '#';
+            T[2*i + 2] = s.charAt(i);
+        }
+        T[s.length()*2 + 1] = '#';
+         
+         
+        int[]  P = new int[T.length];
+        int center = 0, right = 0;
+         
+        for (int i = 1; i < T.length-1; i++) {
+            
+            //mirror of i wrt current center...
+            //mirror is used to avoid recompute the palindrome length with center i
+            int mirr = 2*center - i;
+ 
+            //using left mirrors value to avoid few comparisions 
+            if (i < right)
+                P[i] = Math.min(right - i, P[mirr]);
+          
+          
+          //if the check comparision outside the right boundary that has not been compared yet!
+          while (T[i + (1 + P[i])] == T[i - (1 + P[i])])
+          {
+              c++;
+              P[i]++;
+          }
+            
+            //if the right boundary of palindrome with center i is gt right boundary of palindrome with center c
+            //1) set new center and
+            //2) set new right index
+            
+            if (i + P[i] > right) {
+                center = i;
+                right = i + P[i];
+            }
+        }
+         
+        int length = 0;   // length of longest palindromic substring
+        center = 0;   // center of longest palindromic substring
+        
+        
+        for (int i = 1; i < P.length-1; i++) {
+            if (P[i] > length) {
+                length = P[i];
+                center = i;
+            }
+        }
+        System.out.println(s.substring((center - 1 - length) / 2, (center - 1 + length) / 2)+" "+c);
+ 
+    }

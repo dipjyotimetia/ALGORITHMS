@@ -26,7 +26,7 @@ https://cptalks.quora.com/Longest-Palindromic-Subsequence-LPS
                     dp[start][end] = 2;
                     
                     else if(s.charAt(start) == s.charAt(end))
-                    dp[start][end] = dp[start-1][end-1] + 2;
+                    dp[start][end] = dp[start+1][end-1] + 2;
                         
                     else
                     dp[start][end] = Math.max( dp[start+1][end] , dp[start][end-1] );
@@ -73,8 +73,8 @@ example :--salsa
        s a l s a
        0 1 2 3 4
     
- s  0  1 1 1 2 0          (0,3) -->sals    iske liye if ith and jth are equal we need answer of substring (i+1,j-1)
- a  1  0 1 1 1 2          (1,4) -->alsa    and if they are not equal,we need answer of substring(i,j-1) and (i+1,j)
+ s  0  1 1 1 3 0          (0,3) -->sals    iske liye if ith and jth are equal we need answer of substring (i+1,j-1)
+ a  1  0 1 1 1 3          (1,4) -->alsa    and if they are not equal,we need answer of substring(i,j-1) and (i+1,j)
  l  2  0 0 1 1 1          
  s  3  0 0 0 1 1          
  a  4  0 0 0 0 1
@@ -83,12 +83,14 @@ example :--salsa
        s a l s a
        0 1 2 3 4
     
- s  0  1 1 1 2 2          (0,4) -->salsa   iske liye if ith and jth are equal we need answer of substring (i+1,j-1)
+ s  0  1 1 1 2 3          (0,4) -->salsa   iske liye if ith and jth are equal we need answer of substring (i+1,j-1)
  a  1  0 1 1 1 2                   and if they are not equal,we need answer of substring(i,j-1) and (i+1,j)
  l  2  0 0 1 1 1          
  s  3  0 0 0 1 1          
  a  4  0 0 0 0 1
 
     
-    final answer is 2..
+    final answer is 3..
+    
+    The final answer is located at dp[0][n-1].
 */

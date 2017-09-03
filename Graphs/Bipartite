@@ -1,0 +1,38 @@
+class graph{
+   
+        boolean done = false;
+        HashMap<Integer,ArrayList<Integer>> hm = new HashMap();
+        HashMap<Integer,Boolean> vis = new HashMap();
+        HashMap<Integer,Integer> col = new HashMap();
+   
+   
+    void dfs(int v,int color)
+    {
+        if(done)
+        return;
+       
+        vis.put(v,true);
+        col.put(v,color);
+       
+        int dcolor = 1 - color;
+        for(int i : hm.get(v))
+        {
+            if(done)
+                return;
+           
+            if(vis.get(i))
+            {
+                if(col.get(i) == color)
+                {
+                    done = true;
+                    return;
+                }
+            }
+            else
+            {
+                dfs(i,dcolor);
+            }
+        }
+    }
+   
+}
